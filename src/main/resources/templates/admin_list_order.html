@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin_fragments::head"></head>
+
+<body>
+
+<h1>Thông tin chi tiết tất cả cá hóa đơn</h1>
+
+<div th:each="orderDetail : ${listOrderRespond}">
+    <h1>Danh sách 1 hóa đơn</h1>
+    <h3>Total Price: <span th:text="${orderDetail.totalPrice}"></span></h3>
+    <img th:src="${orderDetail.qrcode}" alt="QR Code">
+    <h3>id hóa đơn</h3>
+    <h4><span th:text="${orderDetail.orderId}"></span></h4>
+    <h3>tên người dùng</h3>
+    <h4><span th:text="${orderDetail.user.fullName}"></span></h4>
+
+    <table class="table">
+        <tr>
+            <th scope="col">Home Team</th>
+            <th scope="col">Ảnh team nhà</th>
+            <th scope="col">Away Team</th>
+            <th scope="col">Ảnh team khách</th>
+            <th scope="col">Day</th>
+            <th scope="col">Hour</th>
+            <th scope="col">Price</th>
+            <th scope="col">Area</th>
+        </tr>
+        <tr th:each="ticket : ${orderDetail.listTicket}">
+            <td th:text="${ticket.name_home}"></td>
+            <td th:text="${ticket.image_home}"></td>
+            <td th:text="${ticket.name_away}"></td>
+            <td th:text="${ticket.image_away}"></td>
+            <td th:text="${ticket.day}"></td>
+            <td th:text="${ticket.hour}"></td>
+            <td th:text="${ticket.price}"></td>
+            <td th:text="${ticket.area}"></td>
+        </tr>
+    </table>
+</div>
+</div>
+<div th:unless="${listOrderRespond != null and not #lists.isEmpty(listOrderRespond)}">
+    <p>Not Order</p>
+</div>
+
+</body>
+</html>

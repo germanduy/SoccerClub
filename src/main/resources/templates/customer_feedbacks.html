@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="customer_fragments::head-fragment"></head>
+
+<body>
+<div class="site-wrap">
+    <div th:replace="customer_fragments::top-fragment"></div>
+
+    <!--/CONTENT HERE/-->
+    <div class="site-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                        <form th:action="@{/feedback}" th:object="${feedbacks}" method="post" onsubmit="return validateForm()">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Name" th:field="*{name}" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Email" th:field="*{email}" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Subject" th:field="*{subject}">
+                            </div>
+                            <div class="form-group">
+                                <textarea name="" class="form-control" id="" cols="30" rows="10" th:field="*{content}"
+                                          placeholder="Write something..." required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary py-3 px-5">Send Feedback</button>
+                            </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 ml-auto">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <strong class="text-white d-block">Address</strong>
+                            No. 8, Ton That Thuyet, My Dinh,<br> Tu Liem, Hanoi
+                        </li>
+                        <li class="mb-2">
+                            <strong class="text-white d-block">Email</strong>
+                            <a href="https://mail.google.com/mail/u/0/#inbox?compose=new"
+                               style="font-size: 15px">info-contact@pm-t2208e.com</a>
+                        </li>
+                        <li class="mb-2">
+                            <strong class="text-white d-block">
+                                Phone
+                            </strong>
+                            <a href="tel:0123456789" style="font-size: 15px">+84 123.456.789</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/END CONTENT HERE/-->
+
+    <div th:replace="customer_fragments::bot-fragment"></div>
+</div>
+
+<div th:replace="customer_fragments::script-fragment"></div>
+<script>
+    function validateForm() {
+        var email = document.getElementById("email").value;
+        var emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/
+        if (!emailRegex.test(email)) {
+            Swal.fire(
+                'Oops!',
+                'Please enter a valid email address!',
+                'warning'
+            )
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+<div class="message" th:if="${error}" th:data="${error}" style="  display: none"></div>
+
+<script th:if="${error}">
+    $( document ).ready(function() {
+        var message = $('.message').attr('data');
+        Swal.fire(
+            'Error',
+            message,
+            'error'
+        )
+    });
+</script>
+
+<div class="message" th:if="${success}" th:data="${success}" style="display: none"></div>
+
+<script th:if="${success}">
+    $( document ).ready(function() {
+        var message = $('.message').attr('data');
+        Swal.fire(
+            'Success',
+            message,
+            'success'
+        )
+    });
+</script>
+
+</body>
+
+</html>
